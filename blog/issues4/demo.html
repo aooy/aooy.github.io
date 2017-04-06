@@ -1,110 +1,76 @@
 <!DOCTYPE HTML>
-
 <html>
 <head>
-	
+	<meta charset="utf-8">
+	<title>图片灰度算法</title>
+	<style type="text/css">
+		
+		body{
+			margin: 0 auto;
+			text-align: center;
+		}
+		h2{
+			padding-top: 40px;
+		}
+		p{
+			color: #7d837f;
+			padding-bottom: 30px;
+		}
+	</style>
 </head>
 <body>
-<canvas id="c" class="code" width="800" height="500"></canvas>
+<h2>算法1：</h2>
+
+<canvas id="c1"></canvas>
+<p>Gray = (Red + Green + Blue) / 3</p>
+
+<h2>算法2：</h2>
+<canvas id="c2"></canvas>
+<p>Gray = (Red * 0.3 + Green * 0.59 + Blue * 0.11)</p>
+
+
+<canvas id="c2a"></canvas>
+<p>上半部分算法1，下半部分算法2</p>
+
+<h2>算法3：</h2>
+
+<canvas id="c3"></canvas>
+<p>( Math.max(Red, Green, Blue) + Math.min(Red, Green, Blue) ) / 2</p>
+
+<h2>算法4：</h2>
+
+<canvas id="c4max"></canvas>
+<p>Math.max(Red, Green, Blue)</p>
+
+
+<canvas id="c4min"></canvas>
+<p>Math.min(Red, Green, Blue)</p>
+
+<h2>算法5：</h2>
+
+<canvas id="c5red"></canvas>
+<p>Gray = Red</p>
+
+<canvas id="c5green"></canvas>
+<p>Gray = Green</p>
+
+<canvas id="c5blue"></canvas>
+<p>Gray = Blue</p>
+
+<h2>算法6：</h2>
+
+<canvas id="c6"></canvas>
+<div>
+<p> 
+ConversionFactor = 255 / (NumberOfShades - 1) <br>
+AverageValue = (Red + Green + Blue) / 3   <br>
+Gray = Math.round((AverageValue / ConversionFactor) + 0.5) * ConversionFactor
+</p>
+</div>
+
+
 <script type="text/javascript" src="./js/main.js"></script>
 <script type="text/javascript">
-
-		// var c = document.querySelector("#c");
-		// var ctx = c.getContext("2d");
-
-
-		// //改变图片颜色
-		// var image = new Image();
-		// image.onload = function(){
-		// 	console.log('loaded image');
-		// 	ctx.drawImage(image,0,0);
-		// 	paintGray();
-		// };
-		// image.src = "LLL.jpg"
-
-		// 	function paintGray(){
-		// 		var imageData = ctx.getImageData(0,0,500,300);
-		// 		var numPixels = imageData.data.length/4;
-		// 		for (var i = 0; i < numPixels; i++) {
-		// 			var red = imageData.data[i * 4];
-		// 			var green = imageData.data[i * 4 +1];
-		// 			var blue = imageData.data[i * 4 + 2];
-		// 			var alpha = imageData.data[i * 4 +3];
-		// 			var gray = (red * 0.3 + green * 0.59 + blue * 0.11);
-		// 			imageData.data[i * 4] = gray;
-		// 			imageData.data[i * 4 +1] = gray;
-		// 			imageData.data[i * 4 + 2] = gray;
-		// 			imageData.data[i * 4 +3] = gray;
-		// 		};
-		// 		ctx.putImageData(imageData,0,0);
-		// 	}
-
-
-
-		//修改数据颜色练习
-		// var data = ctx.getImageData(0,0,400,400);
-
-		// function paintGreen(imageData){
-		// 	var numPixels = imageData.data.length/4;
-		// 	for (var i = 0; i < numPixels; i++){
-		// 		if (i % 10 === 0) {
-		// 			imageData.data[i * 4 + 1] = 255;
-		// 			imageData.data[i * 4 + 3] = 255;
-		// 		}
-		// 	}
-		// 	ctx.putImageData(imageData,0,0);
-		// }
-		// paintGreen(data);
-
-
-
-				//绘制矩形
-				// (x,y[有这个点开始],n(长),n（宽）)
-				// ctx.strokeRect(100,100,100,100);
-				// ctx.fillRect(200,200,200,200);
-
-				//另一种绘制方法（路径）
-				// ctx.beginPath();
-				// 从这个点开始起 笔括号里为坐标（x,y）
-				// ctx.moveTo(0,20);
-				// 向（x,y）绘制
-				// ctx.lineTo(20,20);
-				// ctx.lineTo(30,0);
-				// ctx.lineTo(40,20);
-				// ctx.lineTo(60,20);
-				// ctx.lineTo(45,37);
-				// ctx.lineTo(52,60);
-				// ctx.lineTo(30,45);
-				// ctx.lineTo(8,60);
-				// ctx.lineTo(15,37);
-				// ctx.lineTo(0,20);
-				// 实心
-				// ctx.fill();
-				//空心
-				//ctx.stroke();
-
-
-				// 练习
-				// ctx.beginPath();
-				// ctx.moveTo(75,75);
-				// ctx.lineTo(125,75);
-				// ctx.lineTo(125,125);
-				// ctx.lineTo(75,75);
-				// ctx.fill();
-
-				// ctx.strokeRect(50,50,100,100);
-
-				// ctx.beginPath();
-				// ctx.moveTo(50,50);
-				// ctx.lineTo(150,50);
-				// ctx.lineTo(150,150);
-				// ctx.lineTo(50,150);
-				// ctx.lineTo(50,50);
-				// ctx.stroke();
-
-
-		
-	</script>
 </body>
 </html>
 
