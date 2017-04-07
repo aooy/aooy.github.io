@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>图片灰度算法</title>
-	<style type="text/css">
-		
+	<style type="text/css">		
 		body{
 			margin: 0 auto;
 			text-align: center;
@@ -19,6 +18,9 @@
 	</style>
 </head>
 <body>
+
+<canvas id="head"></canvas>
+
 <h2>算法1：</h2>
 
 <canvas id="c1"></canvas>
@@ -58,14 +60,18 @@
 <p>Gray = Blue</p>
 
 <h2>算法6：</h2>
-
-<canvas id="c6"></canvas>
-<div>
 <p> 
 ConversionFactor = 255 / (NumberOfShades - 1) <br>
 AverageValue = (Red + Green + Blue) / 3   <br>
 Gray = Math.round((AverageValue / ConversionFactor) + 0.5) * ConversionFactor
 </p>
+<canvas id="c6"></canvas>
+<p>4 shades</p>
+
+<canvas id="c6b"></canvas>
+<p>16 shades</p>
+<div>
+
 </div>
 
 

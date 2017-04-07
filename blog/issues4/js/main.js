@@ -1,53 +1,67 @@
-function initWorker(file, id){
+function initWorker(file, id, x , y){
 	var worker = new Worker(file);
 	worker.onmessage = function(e) {
-		getCanvas2dCtx(id).putImageData(e.data,0,0);
+		var ctx = getCanvas2dCtx(id);
+		ctx.putImageData(e.data, x, y);
 	};
 	return worker;
 }
 
 var image = new Image();
-image.src = 'monkey.jpg';
+image.src = 'fruits3.jpg';
 
 image.onload = function(){
 	console.log('loaded image');
-	var imageData = initImgData(800, 500);
 	var methodfile = './js/methods.js';
+	
+	//第一张的左边原样，右边变灰的图
+	var ctx = getCanvas2dCtx('#head');
+	ctx.drawImage(image, 0, 0, 720, 480);
+	var worker = new Worker(methodfile);
+	var imageData = ctx.getImageData(360, 0, 360, 720);
+	worker.postMessage([imageData, imageData.data.length/4, 1]);
+	worker.onmessage = function(e) {
+		ctx.putImageData(e.data, 360, 0);
+	};
+
+	imageData = initImgData(image, 0, 0, 0, 0, 720, 480, 720, 480);
 	//算法1
-	paintGray(initWorker(methodfile, "#c1"), imageData, 1);
+	paintGray(methodfile, "#c1", imageData, 0, 0, 1);
 	//算法2
-	paintGray(initWorker(methodfile, "#c2"), imageData, 2);
+	paintGray(methodfile, "#c2", imageData, 0, 0, 2);
 	//算法1+算法2
-	paintGray(initWorker('./js/half1and2.js', '#c2a'), imageData);
+	paintGray('./js/half1and2.js', '#c2a', imageData, 0, 0);
 	//算法3
-	paintGray(initWorker(methodfile, '#c3'), imageData, 3);
+	paintGray(methodfile, '#c3', imageData, 0, 0, 3);
 	//算法4max
-	paintGray(initWorker(methodfile, '#c4max'), imageData, 4);
+	paintGray(methodfile, '#c4max', imageData, 0, 0, 4);
 	//算法4min
-	paintGray(initWorker(methodfile, '#c4min'), imageData, 5);
+	paintGray(methodfile, '#c4min', imageData, 0, 0, 5);
 	//算法5red
-	paintGray(initWorker(methodfile, '#c5red'), imageData, 6);
+	paintGray(methodfile, '#c5red', imageData, 0, 0, 6);
 	//算法5green
-	paintGray(initWorker(methodfile, '#c5green'), imageData, 7);
+	paintGray(methodfile, '#c5green', imageData, 0, 0, 7);
 	//算法5blue
-	paintGray(initWorker(methodfile, '#c5blue'), imageData, 8);
+	paintGray(methodfile, '#c5blue', imageData, 0, 0, 8);
 	//算法6
-	paintGray(initWorker(methodfile, '#c6'), imageData, 9, 4);
+	paintGray(methodfile, '#c6', imageData, 0, 0, 9, 4);
+	//算法6
+	paintGray(methodfile, '#c6b', imageData, 0, 0, 9, 16);
 };
 
-function initImgData(width, height){
+function initImgData(img, dx, dy, gx, gy, dwidth, dheight, gwidth, gheight){
 	var canvas = document.createElement('canvas');
-	canvas.width = width;
-	canvas.height = height;
+	canvas.width = dwidth;
+	canvas.height = dheight;
 	var canvasCtx = canvas.getContext("2d");
-	canvasCtx.drawImage(image, 0, 0, width, height);
-	var data = canvasCtx.getImageData(0, 0, width, height);
+	canvasCtx.drawImage(img, dx, dy, dwidth, dheight);
+	var data = canvasCtx.getImageData(gx, gy, gwidth, gheight);
 	return data;
 }
 
 function getCanvas2dCtx(id){
 	var ele = document.querySelector(id);
-	setWh(ele, 800, 500);
+	setWh(ele, 720, 480);
 	if(ele.tagName === 'CANVAS') return ele.getContext("2d");
 }
 
@@ -56,9 +70,10 @@ function setWh(ele, width, height){
 	ele.height = height;
 }
 
-function paintGray( worker, imageData, methodType ,NumberOfShades){
+function paintGray(file, id, imageData, x, y, methodType, NumberOfShades ){
 	var numPixels = imageData.data.length/4;
-	worker.postMessage([imageData, numPixels, methodType ,NumberOfShades])
+	var worker = initWorker(file, id, x, y);
+	worker.postMessage([imageData, numPixels, methodType, NumberOfShades]);
 	console.log('img over')
 }
 
