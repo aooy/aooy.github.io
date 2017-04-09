@@ -8,7 +8,7 @@ function initWorker(file, id, x , y){
 }
 
 var image = new Image();
-image.src = 'fruits3.jpg';
+image.src = './fruits.jpg';
 
 image.onload = function(){
 	console.log('loaded image');
